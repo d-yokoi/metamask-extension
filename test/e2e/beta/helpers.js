@@ -84,6 +84,7 @@ async function openNewPage (driver, url) {
 
 async function waitUntilXWindowHandles (driver, x) {
   let windowHandles = await driver.getAllWindowHandles()
+  console.log(`waitUntilXWindowHandles windowHandles`, windowHandles);
   if (windowHandles.length === x) return
   await delay(1000)
   return await waitUntilXWindowHandles(driver, x)
