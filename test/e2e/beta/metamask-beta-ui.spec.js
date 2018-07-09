@@ -429,9 +429,12 @@ describe('MetaMask', function () {
 
   describe('Send ETH from dapp', () => {
     it('starts a send transaction inside the dapp', async () => {
+      const windowHandles0 = await driver.getAllWindowHandles()
+      console.log(`433 windowHandles0`, windowHandles0);
       await openNewPage(driver, 'http://127.0.0.1:8080/')
       await delay(regularDelayMs)
-
+      const windowHandles1 = await driver.getAllWindowHandles()
+      console.log(`437 windowHandles1`, windowHandles1);
       await waitUntilXWindowHandles(driver, 3)
       const windowHandles = await driver.getAllWindowHandles()
       const extension = windowHandles[0]
@@ -451,14 +454,17 @@ describe('MetaMask', function () {
       await delay(regularDelayMs)
 
       await driver.switchTo().window(extension)
-      await loadExtension(driver, extensionId)
+      await delay(regularDelayMs)
+
+      const latestTxListItem = await findElement(driver, By.xpath(`//span[contains(text(), '3 ETH')]`), 10000)
+      await latestTxListItem.click()
       await delay(regularDelayMs)
 
       const confirmButton = await findElement(driver, By.xpath(`//button[contains(text(), 'Confirm')]`), 10000)
       await confirmButton.click()
       await delay(regularDelayMs)
 
-      await closeAllWindowHandlesExcept(driver, extension)
+      await closeAllWindowHandlesExcept(driver, [extension, dapp])
       await driver.switchTo().window(extension)
       await delay(regularDelayMs)
     })
@@ -476,21 +482,29 @@ describe('MetaMask', function () {
     let extension
     let dapp
     let popup
-    it('navigates tot the dapp', async () => {
-      await openNewPage(driver, 'http://127.0.0.1:8080/')
-      await delay(tinyDelayMs)
-
-      await waitUntilXWindowHandles(driver, 3)
-      const windowHandles = await driver.getAllWindowHandles()
-      extension = windowHandles[0]
-      popup = await switchToWindowWithTitle(driver, 'MetaMask Notification', windowHandles)
-      dapp = windowHandles.slice(1).find(handle => handle !== popup)
-      await delay(tinyDelayMs)
-
-      const approve = await findElement(driver, By.css('.btn-primary'))
-      await approve.click()
+    it('navigates to the dapp', async () => {
+      // const windowHandles0 = await driver.getAllWindowHandles()
+      // console.log(`484 windowHandles0`, windowHandles0);
+      // await openNewPage(driver, 'http://127.0.0.1:8080/')
       await delay(regularDelayMs)
+      // const windowHandles1 = await driver.getAllWindowHandles()
+      // console.log(`488 windowHandles1`, windowHandles1);
+      // await waitUntilXWindowHandles(driver, 3)
+      const windowHandles = await driver.getAllWindowHandles()
+      // console.log(`482 windowHandles`, windowHandles);
+      extension = windowHandles[0]
+      // console.log(`484 extension`, extension);
+      // popup = await switchToWindowWithTitle(driver, 'MetaMask Notification', windowHandles)
+      // console.log(`486 popup`, popup);
+      dapp = windowHandles[1]
+      // console.log(`488 dapp`, dapp);
+      await delay(tinyDelayMs)
 
+      // const approve = await findElement(driver, By.css('.btn-primary'))
+      // console.log(`492 approve`, approve);
+      // await approve.click()
+      // await delay(regularDelayMs)
+      // console.log(`495 dapp`, dapp);
       await driver.switchTo().window(dapp)
       await delay(regularDelayMs)
     })
