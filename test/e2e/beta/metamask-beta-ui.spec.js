@@ -101,7 +101,7 @@ describe('MetaMask', function () {
         const overlay = await findElement(driver, By.css('.full-flex-height'))
         await driver.wait(until.stalenessOf(overlay))
       } catch (e) {}
-      
+
       const button = await findElement(driver, By.xpath("//p[contains(text(), 'Try Beta Version')]"))
       await button.click()
       await delay(regularDelayMs)
@@ -430,11 +430,11 @@ describe('MetaMask', function () {
   describe('Send ETH from dapp', () => {
     it('starts a send transaction inside the dapp', async () => {
       const windowHandles0 = await driver.getAllWindowHandles()
-      console.log(`433 windowHandles0`, windowHandles0);
+      console.log(`433 windowHandles0`, windowHandles0)
       await openNewPage(driver, 'http://127.0.0.1:8080/')
       await delay(regularDelayMs)
       const windowHandles1 = await driver.getAllWindowHandles()
-      console.log(`437 windowHandles1`, windowHandles1);
+      console.log(`437 windowHandles1`, windowHandles1)
       await waitUntilXWindowHandles(driver, 3)
       const windowHandles = await driver.getAllWindowHandles()
       const extension = windowHandles[0]
@@ -481,7 +481,6 @@ describe('MetaMask', function () {
   describe('Deploy contract and call contract methods', () => {
     let extension
     let dapp
-    let popup
     it('navigates to the dapp', async () => {
       // const windowHandles0 = await driver.getAllWindowHandles()
       // console.log(`484 windowHandles0`, windowHandles0);
@@ -772,7 +771,7 @@ describe('MetaMask', function () {
 
       // await waitUntilXWindowHandles(driver, 3)
       const windowHandles5 = await driver.getAllWindowHandles()
-      console.log(`windowHandles5`, windowHandles5);
+      console.log(`windowHandles5`, windowHandles5)
       const windowHandles = await driver.getAllWindowHandles()
       const extension = windowHandles[0]
       const dapp = await switchToWindowWithTitle(driver, 'E2E Test Dapp', windowHandles)

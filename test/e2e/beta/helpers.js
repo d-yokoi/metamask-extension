@@ -80,12 +80,12 @@ async function openNewPage (driver, url) {
   await driver.get(url)
   await delay(1000)
   const title = await driver.getTitle()
-  console.log(`1 openNewPage title`, title);
+  console.log(`1 openNewPage title`, title)
 }
 
 async function waitUntilXWindowHandles (driver, x) {
-  let windowHandles = await driver.getAllWindowHandles()
-  console.log(`waitUntilXWindowHandles windowHandles`, windowHandles);
+  const windowHandles = await driver.getAllWindowHandles()
+  console.log(`waitUntilXWindowHandles windowHandles`, windowHandles)
   if (windowHandles.length === x) return
   await delay(1000)
   return await waitUntilXWindowHandles(driver, x)
@@ -100,16 +100,12 @@ async function switchToWindowWithTitle (driver, title, windowHandles) {
   const firstHandle = windowHandles[0]
   await driver.switchTo().window(firstHandle)
   const handleTitle = await driver.getTitle()
-  console.log(`${firstHandle} handleTitle`, handleTitle);
+  console.log(`${firstHandle} handleTitle`, handleTitle)
   if (handleTitle === title) {
     return firstHandle
   } else {
     return await switchToWindowWithTitle(driver, title, windowHandles.slice(1))
   }
-}
-
-function includesAll (container, possibleSubset) {
-  return possibleSubset.every(x => container.includes(x))
 }
 
 async function closeAllWindowHandlesExcept (driver, exceptions, windowHandles) {
